@@ -1,0 +1,117 @@
+routes:
+  - path: /
+    func: http_root
+  - get: /login
+    func: http_get_login
+  - post: /login
+    func: http_post_login
+    params:
+      - name: username
+        type: text
+      - name: password
+        type: text
+    check-password-digest:
+      password-param: password
+      result-param: validPassword
+      get-password-digest-func: get_user_password_digest
+  - post: /logout
+    func: http_logout
+  - get: /user_registration/new
+    func: http_user_registration_new
+  - post: /user_registration
+    func: http_user_registration
+    params:
+      - name: username
+        type: text
+        required: true
+        nullify-empty: true
+      - name: password
+        type: text
+        required: true
+        nullify-empty: true
+    digest-password:
+      password-param: password
+      digest-param: passwordDigest
+  - get: /users/{username}
+    func: http_user_home
+    params:
+      - name: username
+        type: text
+  - get: /books/{id}
+    func: http_book_show
+    params:
+      - name: id
+        type: int
+  - get: /books/new
+    func: http_book_new
+  - post: /books
+    func: http_book_create
+    params:
+      - name: title
+        type: text
+        required: true
+        nullify-empty: true
+      - name: author
+        type: text
+        required: true
+        nullify-empty: true
+      - name: finishDate
+        type: text
+        required: true
+        nullify-empty: true
+      - name: format
+        type: text
+        required: true
+        nullify-empty: true
+      - name: location
+        type: text
+        nullify-empty: true
+  - get: /books/{id}/edit
+    func: http_book_edit
+    params:
+      - name: id
+        type: int
+  - post: /books/{id}
+    func: http_book_update
+    params:
+      - name: id
+        type: int
+      - name: title
+        type: text
+        required: true
+        nullify-empty: true
+      - name: author
+        type: text
+        required: true
+        nullify-empty: true
+      - name: finishDate
+        type: text
+        required: true
+        nullify-empty: true
+      - name: format
+        type: text
+        required: true
+        nullify-empty: true
+      - name: location
+        type: text
+        nullify-empty: true
+  - get: /books/{id}/confirm_delete
+    func: http_book_confirm_delete
+    params:
+      - name: id
+        type: int
+  - delete: /books/{id}
+    func: http_book_delete
+    params:
+      - name: id
+        type: int
+  - get: /books/export
+    reverse-proxy: http://127.0.0.1:3001
+  - get: /books/import_csv/form
+    func: http_book_import_csv_form
+  - post: /books/import_csv
+    reverse-proxy: http://127.0.0.1:3001
+  #   func: http_book_import_csv
+  #   params:
+  #     - name: file
+  #       type: file

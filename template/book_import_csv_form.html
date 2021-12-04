@@ -1,0 +1,23 @@
+{{ template "layout_header.html" . }}
+<div class="card">
+  <header>Import Book CSV</header>
+
+  <p>CSV must include header row.</p>
+  <p>CSV must include 5 columns in order: title, author, date finished, format, and location.</p>
+
+  <form enctype="multipart/form-data" action="/books/import_csv" method="post">
+    {{.csrfField}}
+
+
+    <div class="field">
+      <label for="file">Format</label>
+      <input type="file" name="file" id="file" />
+      {{if .errors.file}}
+        <div class="error">{{.errors.file}}</div>
+      {{end}}
+    </div>
+
+    <button type="submit">Import</button>
+  </form>
+</div>
+{{ template "layout_footer.html" . }}

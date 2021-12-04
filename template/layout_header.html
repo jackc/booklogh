@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Booklog</title>
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Booklog</a></h1>
+      <nav>
+        <ul>
+          {{if .currentUser}}
+            <li><a href="/books/new">New Book</a></li>
+            <li><a href="/books/import_csv/form">Import</a></li>
+            <li><a href="/books/export">Export</a></li>
+            <li>
+              <form action="/logout" method="POST" class="link">
+                {{.csrfField}}
+                <button class="link">Logout</button>
+              </form>
+            </li>
+          {{else}}
+            <li><a href="/login">Login</a></li>
+          {{end}}
+        </ul>
+      </nav>
+    </header>
+    <div class="content">

@@ -1,0 +1,11 @@
+
+{{template "layout_header.html" .}}
+<div class="card">
+    <header>New Book</header>
+
+    <form action="/books" method="post">
+      {{.csrfField}}
+      {{template "book_form_fields.html" .}}
+    </form>
+  </div>
+{{template "layout_footer.html" .}}

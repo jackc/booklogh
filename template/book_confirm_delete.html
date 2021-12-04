@@ -1,0 +1,26 @@
+{{ template "layout_header.html" . }}
+<div class="card">
+  <h2>Confirm you want to delete this book?</h2>
+  <dl>
+    <dt>Title</dt>
+    <dd>{{.book.title}}</dd>
+    <dt>Author</dt>
+    <dd>{{.book.author}}</dd>
+    <dt>Finish Date</dt>
+    <dd>{{toDate "2006-01-02" .book.finishDate | date "January 2, 2006"}}</dd>
+    <dt>Format</dt>
+    <dd>{{.book.format}}</dd>
+    <dt>Location</dt>
+    {{if .book.location}}
+      <dd>{{.book.location}}</dd>
+    {{else}}
+      <dd class="empty">None</dd>
+    {{end}}
+  </dl>
+
+  <form action="/books/{{.book.id}}" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    {{.csrfField}}
+    <button type="submit" class="btn">Delete</button>
+  </form>
+{{ template "layout_footer.html" . }}

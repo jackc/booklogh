@@ -1,0 +1,45 @@
+<div class="field">
+  <label for="title">Title</label>
+  <input type="text" name="title" id="title" value="{{.book.title}}" autofocus>
+  {{if .errors.title}}
+    <div class="error">{{.errors.title}}</div>
+  {{end}}
+</div>
+
+<div class="field">
+  <label for="author">Author</label>
+  <input type="text" name="author" id="author" value="{{.book.author}}" >
+  {{if .errors.author}}
+    <div class="error">{{.errors.author}}</div>
+  {{end}}
+</div>
+
+<div class="field">
+  <label for="finishDate">Finish Date</label>
+  <input type="date" name="finishDate" id="finishDate" value="{{.book.finishDate}}" >
+  {{if .errors.finishDate}}
+    <div class="error">{{.errors.finishDate}}</div>
+  {{end}}
+</div>
+
+<div class="field">
+  <label for="format">Format</label>
+  <select name="format" id="format">
+    <option {{if eq .book.format "text"}}selected{{end}}>text</option>
+    <option {{if eq .book.format "audio"}}selected{{end}}>audio</option>
+    <option {{if eq .book.format "video"}}selected{{end}}>video</option>
+  </select>
+  {{if .errors.format}}
+    <div class="error">{{.errors.format}}</div>
+  {{end}}
+</div>
+
+<div class="field">
+  <label for="location">Location</label>
+  <input type="text" name="location" id="location" value="{{.book.location}}" >
+  {{if .errors.location}}
+    <div class="error">{{.errors.location}}</div>
+  {{end}}
+</div>
+
+<button type="submit" class="btn">Save</button>

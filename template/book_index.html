@@ -1,0 +1,118 @@
+package view
+
+import (
+  "github.com/jackc/booklog/data"
+	"github.com/jackc/booklog/route"
+)
+
+func BookIndex(w io.Writer, bva *BaseViewArgs, yearBookLists []*YearBookList) error
+---
+<% LayoutHeader(w, bva) %>
+<style>
+  ol.years {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ol.years > li {
+    margin-bottom: 2rem;
+  }
+
+   ol.years > li > h2 {
+    font-size: 2rem;
+    color: var(--light-text-color);
+  }
+
+  ol.books {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ol.books > li {
+    margin: 1rem 0;
+    display: grid;
+   }
+
+  ol.books time.finished, ol.books .format, ol.books .author {
+    color: var(--light-text-color);
+  }
+
+  ol.books > li .title {
+    display: block;
+    font-weight: bold;
+  }
+
+@media (max-width: 32rem) {
+  ol.years > li > h2 {
+    margin: 0;
+  }
+
+  ol.books > li > .what {
+    margin-left: 2rem;
+  }
+}
+
+@media not all and (max-width: 32rem) {
+  ol.books > li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+  }
+
+  ol.years > li > h2 {
+    margin: 0 0 0 9rem;
+  }
+
+  ol.books time.finished, ol.books .format {
+    display: block;
+    min-width: 8rem;
+    text-align: right;
+    margin-right: 1rem;
+  }
+}
+</style>
+
+<div class="card">
+  <% for _, ybl := range yearBookLists { %>
+    <ol class="years">
+      <li>
+        <h2><%=i ybl.Year %></h2>
+        <ol class="books">
+          <% for _, book := range ybl.Books { %>
+            <li>
+              <div class="when-and-how">
+                <time class="finished"
+                  datetime="<%= book.FinishDate.Format("2006-01-02") %>"
+                  title="<%= book.FinishDate.Format("January 2, 2006") %>"
+                >
+                  <%= book.FinishDate.Format("January 2") %>
+                </time>
+                <span class="format">
+                  <%
+                  var icon string
+                  switch book.Format {
+                  case "audio":
+                    icon = "🎧"
+                  case "text":
+                    icon = "📖"
+                  case "video":
+                    icon = "📺"
+                  } %>
+                  <%= icon %>
+                </span>
+              </div>
+              <div class="what">
+                <a class="title" href="<%=raw route.BookPath(bva.PathUser.Username, book.ID) %>">
+                  <%= book.Title %>
+                </a>
+                <div class="author"><%= book.Author %></div>
+              </div>
+            </li>
+          <% } %>
+        </ol>
+      </li>
+    </ol>
+  <% } %>
+</div>
+<% LayoutFooter(w, bva) %>

@@ -1,0 +1,28 @@
+{{ template "layout_header.html" . }}
+<div class="card">
+  <header>Sign Up</header>
+
+  <form action="/user_registration" method="post">
+    {{.csrfField}}
+
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" value="{{.username}}" autofocus>
+      {{if .errors.username}}
+        <div class="error">{{.errors.username}}</div>
+      {{end}}
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" value="{{.password}}">
+      {{if .errors.password}}
+        <div class="error">{{.errors.password}}</div>
+      {{end}}
+    </div>
+
+    <button type="submit" class="btn">Sign up</button>
+    <a href="/login">Login</a>
+  </form>
+</div>
+{{ template "layout_footer.html" . }}

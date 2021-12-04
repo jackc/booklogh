@@ -1,0 +1,167 @@
+{{ template "layout_header.html" . }}
+<style>
+  ol.years {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ol.years > li {
+    margin-bottom: 2rem;
+  }
+
+   ol.years > li > h2 {
+    font-size: 2rem;
+    color: var(--light-text-color);
+  }
+
+  ol.books {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ol.books > li {
+    margin: 1rem 0;
+    display: grid;
+   }
+
+  ol.books time.finished, ol.books .format, ol.books .author {
+    color: var(--light-text-color);
+  }
+
+  ol.books > li .title {
+    display: block;
+    font-weight: bold;
+  }
+
+  .stats {
+    display: grid;
+  }
+
+  .books-per-time h2 {
+    margin: 0 0 1rem 0;
+  }
+
+  .books-per-time table {
+    border-collapse: collapse;
+  }
+
+  .books-per-time th {
+    font-weight: bold;
+    color: var(--light-text-color);
+    padding: 2px 0;
+    text-align: left;
+    min-width: 6rem;
+  }
+
+  .books-per-time td {
+    color: var(--light-text-color);
+    text-align: right;
+    padding: 2px 0;
+  }
+
+@media (max-width: 32rem) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  ol.years > li > h2 {
+    margin: 0;
+  }
+
+  ol.books > li > .what {
+    margin-left: 2rem;
+  }
+}
+
+@media not all and (max-width: 32rem) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  ol.books > li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+  }
+
+  ol.years > li > h2 {
+    margin: 0 0 0 9rem;
+  }
+
+  ol.books time.finished, ol.books .format {
+    display: block;
+    min-width: 8rem;
+    text-align: right;
+    margin-right: 1rem;
+  }
+}
+</style>
+
+<div class="stats">
+  <div class="card books-per-time">
+    <h2>Per Year</h2>
+
+    <table>
+      {{range .booksPerYear}}
+        <tr>
+          <th>{{.year}}</th>
+          <td>{{.count}}</td>
+        </tr>
+      {{end}}
+    </table>
+  </div>
+
+  <div class="card books-per-time">
+    <h2>Last Year Per Month</h2>
+
+    <table>
+      {{range .booksPerMonth}}
+        <tr>
+          <th>{{toDate "2006-01-02" .month | date "January"}}</th>
+          <td>{{.count}}</td>
+        </tr>
+      {{end}}
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  {{range .booksByYear}}
+    <ol class="years">
+      <li>
+        <h2>{{.year}}</h2>
+        <ol class="books">
+          {{range .books}}
+            <li>
+              <div class="when-and-how">
+                <time class="finished"
+                  datetime="{{.finishDate}}"
+                  title="{{toDate "2006-01-02" .finishDate | date "January 2, 2006"}}"
+                >
+                {{toDate "2006-01-02" .finishDate | date "January 2"}}
+                </time>
+                <span class="format">
+                  {{if eq .format "audio"}}
+                    🎧
+                  {{else if eq .format "text"}}
+                    📖
+                  {{else if eq .format "video"}}
+                    📺
+                  {{end}}
+                </span>
+              </div>
+              <div class="what">
+                <a class="title" href="/books/{{.id}}">
+                  {{.title}}
+                </a>
+                <div class="author">{{.author}}</div>
+              </div>
+            </li>
+          {{end}}
+        </ol>
+      </li>
+    </ol>
+  {{end}}
+</div>
+{{ template "layout_footer.html" . }}

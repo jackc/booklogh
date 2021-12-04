@@ -1,0 +1,23 @@
+{{ template "layout_header.html" . }}
+<div class="card">
+  <dl>
+    <dt>Title</dt>
+    <dd>{{.book.title}}</dd>
+    <dt>Author</dt>
+    <dd>{{.book.author}}</dd>
+    <dt>Finish Date</dt>
+    <dd>{{toDate "2006-01-02" .book.finishDate | date "January 2, 2006"}}</dd>
+    <dt>Format</dt>
+    <dd>{{.book.format}}</dd>
+    <dt>Location</dt>
+    {{if .book.location}}
+      <dd>{{.book.location}}</dd>
+    {{else}}
+      <dd class="empty">None</dd>
+    {{end}}
+  </dl>
+
+  <a class="title" href="/books/{{.book.id}}/edit">Edit</a>
+  <a class="title" href="/books/{{.book.id}}/confirm_delete">Delete</a>
+</div>
+{{ template "layout_footer.html" . }}

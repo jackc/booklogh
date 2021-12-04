@@ -1,0 +1,32 @@
+{{ template "layout_header.html" . }}
+<div class="card">
+  <header>Login</header>
+
+  <form action="/login" method="post">
+    {{.csrfField}}
+
+    {{if .errors.base}}
+      <div class="error">{{.errors.base}}</div>
+    {{end}}
+
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" value="{{.username}}" autofocus required>
+      {{if .errors.username}}
+        <div class="error">{{.errors.username}}</div>
+      {{end}}
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" value="{{.password}}" required minlength="8">
+      {{if .errors.password}}
+        <div class="error">{{.errors.password}}</div>
+      {{end}}
+    </div>
+
+    <button type="submit" class="btn">Login</button>
+    <a href="/user_registration/new">Sign up</a>
+  </form>
+</div>
+{{ template "layout_footer.html" . }}

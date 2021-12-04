@@ -1,0 +1,10 @@
+{{template "layout_header.html" .}}
+<div class="card">
+    <header>Edit Book</header>
+
+    <form action="/books/{{.book.id}}" method="post">
+      {{.csrfField}}
+      {{template "book_form_fields.html" .}}
+    </form>
+  </div>
+{{template "layout_footer.html" .}}
